@@ -1098,7 +1098,10 @@ def routes_command(sort: str, all_methods: bool) -> None:
         pass
 
     rows.insert(0, headers)
-    widths = [max(len(row[i]) for row in rows) for i in range(len(headers))]
+    widths = [0] * len(headers)
+    for row in rows:
+        for i, cell in enumerate(row):
+            widths[i] = max(widths[i], len(cell))
     rows.insert(1, ["-" * w for w in widths])
     template = "  ".join(f"{{{i}:<{w}}}" for i, w in enumerate(widths))
 
